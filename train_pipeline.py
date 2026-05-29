@@ -22,7 +22,11 @@ def main():
     print(f"Test Fraud cases: {np.sum(y_test)} ({(np.sum(y_test)/len(y_test))*100:.4f}%)")
     
     # Save the preprocessor
-    save_artifact(preprocessor, "preprocessor.pkl")
+    preprocessor_dict = {
+        "time_scaler": preprocessor.time_scaler,
+        "amount_scaler": preprocessor.amount_scaler
+    }
+    save_artifact(preprocessor_dict, "preprocessor.pkl")
     
     # 3. Train Models
     print("\n=== Step 3: Training Models ===")

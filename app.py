@@ -614,7 +614,15 @@ with tab4:
     input_df = pd.DataFrame(input_data)
     
     # Preprocess
-    processed_input_df = preprocessor.transform(input_df)
+    if isinstance(preprocessor, dict):
+        time_scaler = preprocessor['time_scaler']
+        amount_scaler = preprocessor['amount_scaler']
+        processed_input_df = input_df.copy()
+        processed_input_df['scaled_time'] = time_scaler.transform(processed_input_df[['Time']])
+        processed_input_df['scaled_amount'] = amount_scaler.transform(processed_input_df[['Amount']])
+        processed_input_df = processed_input_df.drop(['Time', 'Amount'], axis=1)
+    else:
+        processed_input_df = preprocessor.transform(input_df)
     
     # Run predictions
     # Models expect features in a specific order: V1 to V28, scaled_time, scaled_amount
