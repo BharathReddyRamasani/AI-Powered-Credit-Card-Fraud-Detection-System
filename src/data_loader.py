@@ -1,5 +1,4 @@
 import os
-import kagglehub
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import train_test_split
@@ -11,6 +10,7 @@ def download_and_load_data(save_dir="data"):
     Downloads the credit card fraud dataset from Kaggle programmatically
     and loads it into a pandas DataFrame.
     """
+    import kagglehub
     print("Downloading credit card fraud dataset using kagglehub...")
     try:
         # Download latest version of mlg-ulb/creditcardfraud
