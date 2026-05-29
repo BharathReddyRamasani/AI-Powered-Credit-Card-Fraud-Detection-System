@@ -7,41 +7,30 @@ import joblib
 
 def download_and_load_data(save_dir="data"):
     """
-    Downloads the credit card fraud dataset from Kaggle programmatically
+    Downloads the credit card fraud dataset from a public mirror programmatically
     and loads it into a pandas DataFrame.
     """
-    import kagglehub
-    print("Downloading credit card fraud dataset using kagglehub...")
+    import urllib.request
+    
+    os.makedirs(save_dir, exist_ok=True)
+    local_csv = os.path.join(save_dir, "creditcard.csv")
+    
+    if os.path.exists(local_csv):
+        print(f"Loading cached local dataset from: {local_csv}")
+        return pd.read_csv(local_csv)
+        
+    print("Downloading credit card fraud dataset from public mirror...")
+    mirror_url = "https://github.com/nsethi31/Kaggle-Data-Credit-Card-Fraud-Detection/raw/master/creditcard.csv"
+    
     try:
-        # Download latest version of mlg-ulb/creditcardfraud
-        path = kagglehub.dataset_download("mlg-ulb/creditcardfraud")
-        print(f"Dataset downloaded to path: {path}")
-        
-        # Locate the CSV file in the downloaded path
-        files = os.listdir(path)
-        csv_file = [f for f in files if f.endswith('.csv')][0]
-        csv_path = os.path.join(path, csv_file)
-        
-        print(f"Loading dataset from: {csv_path}...")
-        df = pd.read_csv(csv_path)
+        print(f"Retrieving CSV file from: {mirror_url}")
+        urllib.request.urlretrieve(mirror_url, local_csv)
+        print(f"Download complete. Saved to: {local_csv}")
+        df = pd.read_csv(local_csv)
         print(f"Successfully loaded dataset with shape: {df.shape}")
-        
-        # Optionally create local copy for offline use/fast access
-        os.makedirs(save_dir, exist_ok=True)
-        local_csv = os.path.join(save_dir, "creditcard.csv")
-        if not os.path.exists(local_csv):
-            # Save a compressed version or sample if too large, but we can copy the full file
-            print(f"Creating local copy of CSV at {local_csv}...")
-            df.to_csv(local_csv, index=False)
-            
         return df
     except Exception as e:
-        print(f"Error loading data: {e}")
-        # Try to load local file if download fails
-        local_csv = os.path.join(save_dir, "creditcard.csv")
-        if os.path.exists(local_csv):
-            print(f"Loading cached local copy from {local_csv}...")
-            return pd.read_csv(local_csv)
+        print(f"Error loading/downloading data: {e}")
         raise e
 
 class FraudDataPreprocessor:

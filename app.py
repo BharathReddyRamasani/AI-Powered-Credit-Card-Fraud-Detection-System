@@ -183,7 +183,8 @@ if not preprocessor or not metrics_data or plot_df is None:
     if st.button("🚀 Run Training Pipeline Now"):
         with st.spinner("Downloading dataset and training models... this may take 1-2 minutes."):
             import subprocess
-            result = subprocess.run(["python", "train_pipeline.py"], capture_output=True, text=True)
+            import sys
+            result = subprocess.run([sys.executable, "train_pipeline.py"], capture_output=True, text=True)
             if result.returncode == 0:
                 st.success("Training pipeline ran successfully! Reloading page...")
                 st.rerun()
