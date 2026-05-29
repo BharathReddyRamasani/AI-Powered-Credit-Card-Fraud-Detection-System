@@ -49,6 +49,7 @@ env/
 # Local data cache
 data/
 *.csv
+!models/ui_plot_data.csv
 *.zip
 
 # Local Model artifacts
