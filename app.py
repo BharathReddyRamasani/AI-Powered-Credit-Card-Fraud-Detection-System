@@ -137,7 +137,7 @@ st.markdown("""
 
 # Helper functions to load data and artifacts safely
 @st.cache_resource
-def load_models_and_scaler():
+def load_models_and_scaler_v3():
     """Loads scalers and classifiers."""
     try:
         preprocessor = joblib.load("models/preprocessor.pkl")
@@ -150,7 +150,7 @@ def load_models_and_scaler():
         return None, None, None, None
 
 @st.cache_data
-def load_metrics_and_plot_data():
+def load_metrics_and_plot_data_v3():
     """Loads metrics JSON and visual plotting subset."""
     metrics = None
     plot_df = None
@@ -165,8 +165,8 @@ def load_metrics_and_plot_data():
     return metrics, plot_df
 
 # Load all artifacts
-preprocessor, lr_model, rf_model, if_model = load_models_and_scaler()
-metrics_data, plot_df = load_metrics_and_plot_data()
+preprocessor, lr_model, rf_model, if_model = load_models_and_scaler_v3()
+metrics_data, plot_df = load_metrics_and_plot_data_v3()
 
 # Render Header Title Banner
 st.markdown("""
