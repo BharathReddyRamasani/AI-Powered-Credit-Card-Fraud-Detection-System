@@ -20,14 +20,25 @@ st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@300;400;500;600&display=swap');
     
+    /* Main page background */
+    .stApp {
+        background-color: #0B0F19; /* Very dark rich blue-black */
+        color: #E2E8F0;
+    }
+    
+    /* Sidebar background override */
+    [data-testid="stSidebar"] {
+        background-color: #070A13 !important;
+    }
+    
     html, body, [class*="css"] {
         font-family: 'Inter', sans-serif;
     }
     
-    h1, h2, h3, .main-title {
+    h1, h2, h3, h4, h5, h6, .main-title {
         font-family: 'Outfit', sans-serif;
         font-weight: 700;
-        color: #1E293B;
+        color: #F8FAFC !important;
     }
     
     .main-title-container {
@@ -36,7 +47,8 @@ st.markdown("""
         border-radius: 16px;
         color: white;
         margin-bottom: 2rem;
-        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+        border: 1px solid #4338CA;
         position: relative;
         overflow: hidden;
     }
@@ -53,12 +65,17 @@ st.markdown("""
     }
     
     .card-container {
-        background-color: white;
+        background-color: #131A26; /* Dark slate card background - NOT white */
         border-radius: 12px;
         padding: 1.5rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
-        border: 1px solid #F1F5F9;
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
+        border: 1px solid #1E293B; /* Subtle border */
         margin-bottom: 1rem;
+        color: #E2E8F0;
+    }
+    
+    .card-container h1, .card-container h2, .card-container h3, .card-container h4 {
+        color: #F8FAFC !important;
     }
     
     .metric-card {
@@ -84,7 +101,7 @@ st.markdown("""
         font-size: 0.9rem;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        color: #64748B;
+        color: #94A3B8;
         font-weight: 600;
     }
     
@@ -95,21 +112,21 @@ st.markdown("""
     .stTabs [data-baseweb="tab"] {
         height: 50px;
         white-space: pre-wrap;
-        background-color: #F8FAFC;
+        background-color: #131A26; /* Match card backgrounds */
         border-radius: 8px 8px 0px 0px;
         gap: 1px;
         padding-left: 20px;
         padding-right: 20px;
-        border: 1px solid #E2E8F0;
+        border: 1px solid #1E293B;
         border-bottom: none;
-        color: #475569;
+        color: #94A3B8;
         font-weight: 500;
     }
 
     .stTabs [aria-selected="true"] {
-        background-color: #FFFFFF !important;
-        border-top: 3px solid #4F46E5 !important;
-        color: #4F46E5 !important;
+        background-color: #1B2436 !important; /* Active tab slightly lighter slate */
+        border-top: 3px solid #6366F1 !important; /* Indigo accent indicator */
+        color: #818CF8 !important;
         font-weight: 700 !important;
     }
     
@@ -121,16 +138,16 @@ st.markdown("""
         display: inline-block;
     }
     .badge-fraud {
-        background-color: #FEE2E2;
-        color: #991B1B;
+        background-color: #7F1D1D;
+        color: #FEE2E2;
     }
     .badge-legit {
-        background-color: #D1FAE5;
-        color: #065F46;
+        background-color: #064E3B;
+        color: #D1FAE5;
     }
     .badge-neutral {
-        background-color: #F1F5F9;
-        color: #334155;
+        background-color: #334155;
+        color: #F1F5F9;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -296,14 +313,14 @@ if not preprocessor or not metrics_data or plot_df is None:
 
 # Sidebar Info Panel
 st.sidebar.markdown("""
-    <div class="card-container" style="background-color: #F8FAFC;">
+    <div class="card-container" style="background-color: #131A26;">
         <h3 style="margin-top: 0;">ℹ️ Project Information</h3>
-        <p style="font-size: 0.9rem; color: #475569;">
+        <p style="font-size: 0.9rem; color: #94A3B8;">
             This system demonstrates real-world banking AI techniques for fraud detection. It uses Kaggle's <b>creditcardfraud</b> dataset (284,807 transactions).
         </p>
-        <p style="font-size: 0.9rem; color: #475569;">
+        <p style="font-size: 0.9rem; color: #94A3B8;">
             <b>Key Concepts Taught:</b>
-            <ul>
+            <ul style="color: #94A3B8;">
                 <li>Handling Highly Imbalanced Data</li>
                 <li>Anomaly Detection (Unsupervised)</li>
                 <li>Precision/Recall Trade-offs</li>
@@ -315,20 +332,20 @@ st.sidebar.markdown("""
 
 # Sidebar - Quick Metrics Summary
 st.sidebar.markdown("""
-    <div class="card-container" style="background-color: #F8FAFC; border-left: 4px solid #4F46E5;">
-        <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: #4F46E5;">Model Summary (PR-AUC)</h4>
+    <div class="card-container" style="background-color: #131A26; border-left: 4px solid #4F46E5;">
+        <h4 style="margin-top: 0; margin-bottom: 0.5rem; color: #818CF8;">Model Summary (PR-AUC)</h4>
         <table style="width:100%; font-size: 0.85rem; border-collapse: collapse;">
-            <tr style="border-bottom: 1px solid #E2E8F0; height: 30px;">
-                <td><b>Random Forest</b></td>
-                <td style="text-align: right; color: #059669; font-weight: bold;">0.825</td>
+            <tr style="border-bottom: 1px solid #1E293B; height: 30px;">
+                <td style="color: #E2E8F0;"><b>Random Forest</b></td>
+                <td style="text-align: right; color: #00CC96; font-weight: bold;">0.825</td>
             </tr>
-            <tr style="border-bottom: 1px solid #E2E8F0; height: 30px;">
-                <td><b>Logistic Regression</b></td>
-                <td style="text-align: right; color: #4F46E5; font-weight: bold;">0.764</td>
+            <tr style="border-bottom: 1px solid #1E293B; height: 30px;">
+                <td style="color: #E2E8F0;"><b>Logistic Regression</b></td>
+                <td style="text-align: right; color: #636EFA; font-weight: bold;">0.764</td>
             </tr>
             <tr style="height: 30px;">
-                <td><b>Isolation Forest</b></td>
-                <td style="text-align: right; color: #EA580C; font-weight: bold;">0.105</td>
+                <td style="color: #E2E8F0;"><b>Isolation Forest</b></td>
+                <td style="text-align: right; color: #EF553B; font-weight: bold;">0.105</td>
             </tr>
         </table>
     </div>
@@ -786,36 +803,36 @@ with tab4:
     
     if votes == 3:
         st.markdown("""
-            <div style='background-color:#FEE2E2; border-left:6px solid #EF553B; padding:1.5rem; border-radius:8px;'>
-                <h4 style='margin:0; color:#991B1B;'>🔴 High Alert: Critical Risk of Fraud</h4>
-                <p style='margin:0.5rem 0 0 0; color:#7F1D1D;'>
+            <div style='background-color:rgba(153, 27, 27, 0.2); border-left:6px solid #EF553B; padding:1.5rem; border-radius:8px;'>
+                <h4 style='margin:0; color:#FEE2E2;'>🔴 High Alert: Critical Risk of Fraud</h4>
+                <p style='margin:0.5rem 0 0 0; color:#FCA5A5;'>
                     All three models (supervised and unsupervised anomaly detection) agree that this transaction is highly anomalous and matches fraud profile patterns. Automated block recommended.
                 </p>
             </div>
         """, unsafe_allow_html=True)
     elif votes == 2:
         st.markdown("""
-            <div style='background-color:#FEF3C7; border-left:6px solid #D97706; padding:1.5rem; border-radius:8px;'>
-                <h4 style='margin:0; color:#92400E;'>🟡 Medium Alert: Suspect Transaction</h4>
-                <p style='margin:0.5rem 0 0 0; color:#78350F;'>
+            <div style='background-color:rgba(120, 53, 4, 0.2); border-left:6px solid #F59E0B; padding:1.5rem; border-radius:8px;'>
+                <h4 style='margin:0; color:#FEF3C7;'>🟡 Medium Alert: Suspect Transaction</h4>
+                <p style='margin:0.5rem 0 0 0; color:#FCD34D;'>
                     Two models flag this transaction. Typically, Logistic Regression and Random Forest or Isolation Forest identify it. Manual review or secondary authentication (OTP check) recommended.
                 </p>
             </div>
         """, unsafe_allow_html=True)
     elif votes == 1:
         st.markdown("""
-            <div style='background-color:#EFF6FF; border-left:6px solid #2563EB; padding:1.5rem; border-radius:8px;'>
-                <h4 style='margin:0; color:#1E40AF;'>🔵 Low Alert: Minor Anomaly / Soft Warning</h4>
-                <p style='margin:0.5rem 0 0 0; color:#1E3A8A;'>
+            <div style='background-color:rgba(30, 58, 138, 0.2); border-left:6px solid #3B82F6; padding:1.5rem; border-radius:8px;'>
+                <h4 style='margin:0; color:#DBEAFE;'>🔵 Low Alert: Minor Anomaly / Soft Warning</h4>
+                <p style='margin:0.5rem 0 0 0; color:#93C5FD;'>
                     A single model (often the high-recall Logistic Regression or the anomaly-based Isolation Forest) flagged this. This is a low-risk transaction. Keep monitoring or pass silently.
                 </p>
             </div>
         """, unsafe_allow_html=True)
     else:
         st.markdown("""
-            <div style='background-color:#ECFDF5; border-left:6px solid #10B981; padding:1.5rem; border-radius:8px;'>
-                <h4 style='margin:0; color:#065F46;'>🟢 Safe: Clear Transaction</h4>
-                <p style='margin:0.5rem 0 0 0; color:#064E3B;'>
+            <div style='background-color:rgba(6, 95, 70, 0.2); border-left:6px solid #10B981; padding:1.5rem; border-radius:8px;'>
+                <h4 style='margin:0; color:#D1FAE5;'>🟢 Safe: Clear Transaction</h4>
+                <p style='margin:0.5rem 0 0 0; color:#A7F3D0;'>
                     All models agree that this transaction is legitimate and follows normal patterns. No action required.
                 </p>
             </div>
